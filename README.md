@@ -1,6 +1,6 @@
 # Bresenham Line Rasterizer
 
-Using this console app, you insert the start and end points of an arbitrary line, and as an output, get the pixel coordinates of the rasterized line.
+Using this console app, you insert the start and the end point of an arbitrary line and get the pixel coordinates of the rasterized line.
 
 The Bresenham's line rasterizaton algorithm is used as the underlying method.
 
