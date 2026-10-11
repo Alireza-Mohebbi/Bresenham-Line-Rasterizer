@@ -5,7 +5,7 @@ Using this console program, you insert the start and the end point of an arbitra
 The underlying concept is based on Bresenham's line rasterizaton algorithm.
 
 
-# How To Run The Code
+# How To Run The Program
 
 To run this program, having Visual Studio 2015 or newer installed is required. To run the program, do the following steps:
 
