@@ -7,7 +7,9 @@ The underlying concept is based on Bresenham's line rasterizaton algorithm.
 
 # How To Run The Program
 
-To run this program, having Visual Studio 2015 or newer installed is required. To run the program, do the following steps:
+Prerequisite: Visual Studio 2015 or newer installed.
+
+To run the program, follow these steps:
 
 1. Download the repository
 2. Open the file with .sln format
