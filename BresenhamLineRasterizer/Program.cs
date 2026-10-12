@@ -17,7 +17,8 @@ public static class Program
         Console.Write("Y2: ");
         int y2 = int.Parse(Console.ReadLine());
 
-        List<Point2D> myLine = BresenhamLineRasterizer.RasterizeLine(new Point2D(x1, y1), new Point2D(x2, y2));
+        BresenhamLineRasterizer lineRasterizer = new BresenhamLineRasterizer();
+        List<Point2D> myLine = lineRasterizer.RasterizeLine(new Point2D(x1, y1), new Point2D(x2, y2));
 
         PrintPixelCoordinatesOfRasterizedLine(myLine);
 
