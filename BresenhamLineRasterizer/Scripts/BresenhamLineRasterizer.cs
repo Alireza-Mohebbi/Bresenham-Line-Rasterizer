@@ -169,16 +169,4 @@ public static class BresenhamLineRasterizer
             }
         }
     }
-
-    public static void PrintPixelCoordinatesOfRasterizedLine(List<Point2D> rasterizedLine)
-    {
-        if (rasterizedLine.Count != 0)
-        {
-            Console.WriteLine("\nPixel coordinates of the rasterized line:");
-            foreach (Point2D pixel in rasterizedLine)
-            {
-                Console.WriteLine("({0}, {1})", pixel.X, pixel.Y);
-            }
-        }
-    }
 }
