@@ -47,17 +47,17 @@ public class BresenhamLineRasterizer
                 }
                 else
                 {
-                    Console.WriteLine("Error: (Y.start) and (Y.end) of the line can't be negative.");
+                    Console.WriteLine("\nError: (Y.start) and (Y.end) can't be negative.");
                 }
             }
             else
             {
-                Console.WriteLine("Error: (X.start) and (X.end) of the line can't be negative.");
+                Console.WriteLine("\nError: (X.start) and (X.end) can't be negative.");
             }
         }
         else
         {
-            Console.WriteLine("Error: (X.start <= X.end) for the line must hold.");
+            Console.WriteLine("\nError: (X.start <= X.end) must hold.");
         }
         return false;
     }
