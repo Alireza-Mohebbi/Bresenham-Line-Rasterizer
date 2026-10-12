@@ -11,9 +11,9 @@ Prerequisite: Visual Studio 2015 or newer installed.
 
 To run the program, follow these steps:
 
-1. Download the repository
-2. Open the file with .sln format
-3. In Visual Studio, run the program
+1. Download the repository.
+2. Open the file with .sln format; You will enter the Visual Studio.
+3. In Visual Studio, start (run) the program.
 
 
 # Disclaimer
