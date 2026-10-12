@@ -1,0 +1,35 @@
+[33mcommit 69fb5284f390f4e23c983cd1204b17406f22b4fa[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Alireza <alirezamsh4@gmail.com>
+Date:   Sun Oct 11 21:11:19 2026 +0330
+
+    Delete ConsoleApplication1.sln
+
+[33mcommit 93f17f68a212b30f2821ac98f34b5c15151fab8f[m
+Author: Alireza <alirezamsh4@gmail.com>
+Date:   Sun Oct 11 21:10:37 2026 +0330
+
+    Delete BresenhamLineRasterizer.sln
+
+[33mcommit d7fe7acdb276b0fb98ddaac237e4b76360098235[m
+Author: Alireza <alirezamsh4@gmail.com>
+Date:   Sun Oct 11 21:09:33 2026 +0330
+
+    Delete ConsoleApplication1 directory
+
+[33mcommit 1e470c374543a0375173ceb8e6c6363e7839c95c[m
+Author: Alireza <alirezamsh4@gmail.com>
+Date:   Sun Oct 11 21:08:23 2026 +0330
+
+    Create .gitignore
+
+[33mcommit 7be4160161c241e4652f319e41af86e2bfa8f7d0[m
+Author: Alireza-Mohebbi <alirezamsh4@gmail.com>
+Date:   Sun Oct 11 21:06:01 2026 +0330
+
+    Iniatl commit
+
+[33mcommit bd842d8df7b1c00b931a67a4a9f424f4a60809bc[m
+Author: Alireza <alirezamsh4@gmail.com>
+Date:   Sun Oct 11 19:46:10 2026 +0330
+
+    Initial commit
