@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public struct Pixel
+public struct Point2D
 {
     public int X;
     public int Y;
 
-    public Pixel(int x, int y)
+    public Point2D(int x, int y)
     {
         X = x;
         Y = y;
@@ -16,49 +16,41 @@ public struct Pixel
 
 public static class LineRasterizer
 {
-    private static Pixel point1;
-    private static Pixel point2;
+    private static Point2D point1;
+    private static Point2D point2;
     private static int lineWidth;
     private static int lineHeight;
     private static float lineSlope;
     private static int nextPixel_Y_Decider;
-    private static List<Pixel> drawnPixels = new List<Pixel>();
+    private static List<Point2D> drawnPixels = new List<Point2D>();
 
     public static void Main()
     {
-        Console.WriteLine("Enter start point:");
-
+        Console.WriteLine("Enter start point of the line:");
         Console.Write("X1: ");
         int x1 = int.Parse(Console.ReadLine());
-
         Console.Write("Y1: ");
         int y1 = int.Parse(Console.ReadLine());
 
-        Console.WriteLine("Enter end point:");
-
+        Console.WriteLine("\nEnter end point of the line:");
         Console.Write("X2: ");
         int x2 = int.Parse(Console.ReadLine());
-
         Console.Write("Y2: ");
         int y2 = int.Parse(Console.ReadLine());
 
-        List<Pixel> myRasterizedLine = RasterizeLine(
-            new Pixel(x1, y1),
-            new Pixel(x2, y2)
-        );
+        List<Point2D> myLine = RasterizeLine(new Point2D(x1, y1), new Point2D(x2, y2));
 
-        PrintPixelCoordinatesOfRasterizedLine(myRasterizedLine);
+        PrintPixelCoordinatesOfRasterizedLine(myLine);
 
-        Console.WriteLine();
-        Console.WriteLine("Press Enter to exit...");
+        Console.WriteLine("\nPress Enter to exit...");
         Console.ReadLine();
     }
 
-    public static List<Pixel> RasterizeLine(Pixel point1, Pixel point2)
+    public static List<Point2D> RasterizeLine(Point2D point1, Point2D point2)
     {
         drawnPixels.Clear();
         InitializeVariables(point1, point2);
-        if (IsLineInfoCorrect())
+        if (IsLineValid())
         {
             PrepareLine();
             Rasterize();
@@ -67,7 +59,7 @@ public static class LineRasterizer
         return drawnPixels;
     }
 
-    private static void InitializeVariables(Pixel point1, Pixel point2)
+    private static void InitializeVariables(Point2D point1, Point2D point2)
     {
         LineRasterizer.point1 = point1;
         LineRasterizer.point2 = point2;
@@ -77,7 +69,7 @@ public static class LineRasterizer
         nextPixel_Y_Decider = 0;
     }
 
-    private static bool IsLineInfoCorrect()
+    private static bool IsLineValid()
     {
         if (point1.X <= point2.X)
         {
@@ -119,13 +111,13 @@ public static class LineRasterizer
 
     private static void InvertLineSlopeToPositive()
     {
-        point2 = new Pixel(point2.X, point2.Y + 2 * Math.Abs(lineHeight));
+        point2 = new Point2D(point2.X, point2.Y + 2 * Math.Abs(lineHeight));
     }
 
     private static void SwapLine_X_And_Y_Coordinates()
     {
-        point1 = new Pixel(point1.Y, point1.X);
-        point2 = new Pixel(point2.Y, point2.X);
+        point1 = new Point2D(point1.Y, point1.X);
+        point2 = new Point2D(point2.Y, point2.X);
     }
 
     private static void UpdateLinelineWidthAndHeight()
@@ -148,7 +140,7 @@ public static class LineRasterizer
 
     private static void DrawPixel(int x, int y)
     {
-        drawnPixels.Add(new Pixel(x, y));
+        drawnPixels.Add(new Point2D(x, y));
     }
 
     private static int PrepareNextPixel_X(int x)
@@ -191,8 +183,8 @@ public static class LineRasterizer
     {
         for (int i = 0; i < drawnPixels.Count(); i++)
         {
-            Pixel pixel = drawnPixels[i];
-            drawnPixels[i] = new Pixel(pixel.Y, pixel.X);
+            Point2D pixel = drawnPixels[i];
+            drawnPixels[i] = new Point2D(pixel.Y, pixel.X);
         }
     }
 
@@ -200,24 +192,24 @@ public static class LineRasterizer
     {
         for (int i = 0; i < drawnPixels.Count(); i++)
         {
-            Pixel pixel = drawnPixels[i];
+            Point2D pixel = drawnPixels[i];
             if (Math.Abs(lineSlope) > 1)
             {
-                drawnPixels[i] = new Pixel(pixel.X, pixel.Y - 2 * (pixel.Y - point1.X));
+                drawnPixels[i] = new Point2D(pixel.X, pixel.Y - 2 * (pixel.Y - point1.X));
             }
             else
             {
-                drawnPixels[i] = new Pixel(pixel.X, pixel.Y - 2 * (pixel.Y - point1.Y));
+                drawnPixels[i] = new Point2D(pixel.X, pixel.Y - 2 * (pixel.Y - point1.Y));
             }
         }
     }
 
-    public static void PrintPixelCoordinatesOfRasterizedLine(List<Pixel> rasterizedLine)
+    public static void PrintPixelCoordinatesOfRasterizedLine(List<Point2D> rasterizedLine)
     {
         if (rasterizedLine.Count != 0)
         {
-            Console.WriteLine("Required pixels to rasterize the line:");
-            foreach (Pixel pixel in rasterizedLine)
+            Console.WriteLine("\nPixel coordinates of the rasterized line:");
+            foreach (Point2D pixel in rasterizedLine)
             {
                 Console.WriteLine("({0}, {1})", pixel.X, pixel.Y);
             }
