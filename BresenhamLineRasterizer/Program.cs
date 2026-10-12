@@ -17,16 +17,16 @@ public static class Program
         Console.Write("Y2: ");
         int y2 = int.Parse(Console.ReadLine());
 
-        BresenhamLineRasterizer lineRasterizer = new BresenhamLineRasterizer();
-        List<Point2D> myLine = lineRasterizer.RasterizeLine(new Point2D(x1, y1), new Point2D(x2, y2));
+        BresenhamLineRasterizer bresenhamLineRasterizer = new BresenhamLineRasterizer();
+        List<Point2D> myLine = bresenhamLineRasterizer.GetRasterizedLine(new Point2D(x1, y1), new Point2D(x2, y2));
 
-        PrintPixelCoordinatesOfRasterizedLine(myLine);
+        PrintResult(myLine);
 
         Console.WriteLine("\nPress Enter to exit...");
         Console.ReadLine();
     }
 
-    public static void PrintPixelCoordinatesOfRasterizedLine(List<Point2D> rasterizedLine)
+    public static void PrintResult(List<Point2D> rasterizedLine)
     {
         if (rasterizedLine.Count != 0)
         {

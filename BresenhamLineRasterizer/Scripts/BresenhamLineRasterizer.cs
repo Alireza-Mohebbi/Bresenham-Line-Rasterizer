@@ -4,44 +4,44 @@ using System.Linq;
 
 public class BresenhamLineRasterizer
 {
-    private Point2D point1;
-    private Point2D point2;
+    private Point2D startPoint;
+    private Point2D endPoint;
     private int lineWidth;
     private int lineHeight;
     private float lineSlope;
     private int nextPixel_Y_Decider;
-    private List<Point2D> drawnPixels = new List<Point2D>();
+    private List<Point2D> linePixels = new List<Point2D>();
 
-    public List<Point2D> RasterizeLine(Point2D point1, Point2D point2)
+    public List<Point2D> GetRasterizedLine(Point2D startPoint, Point2D endPoint)
     {
-        drawnPixels.Clear();
-        InitializeVariables(point1, point2);
+        linePixels.Clear();
+        InitializeVariables(startPoint, endPoint);
         if (IsLineValid())
         {
             PrepareLine();
             Rasterize();
             OrganizeResult();
         }
-        return drawnPixels;
+        return linePixels;
     }
 
-    private void InitializeVariables(Point2D point1, Point2D point2)
+    private void InitializeVariables(Point2D startPoint, Point2D endPoint)
     {
-        this.point1 = point1;
-        this.point2 = point2;
-        lineWidth = point2.X - point1.X;
-        lineHeight = point2.Y - point1.Y;
+        this.startPoint = startPoint;
+        this.endPoint = endPoint;
+        lineWidth = endPoint.X - startPoint.X;
+        lineHeight = endPoint.Y - startPoint.Y;
         lineSlope = lineWidth == 0 ? 0 : (float)lineHeight / lineWidth;
         nextPixel_Y_Decider = 0;
     }
 
     private bool IsLineValid()
     {
-        if (point1.X <= point2.X)
+        if (startPoint.X <= endPoint.X)
         {
-            if (point1.X >= 0 && point2.X >= 0)
+            if (startPoint.X >= 0 && endPoint.X >= 0)
             {
-                if (point1.Y >= 0 && point2.Y >= 0)
+                if (startPoint.Y >= 0 && endPoint.Y >= 0)
                 {
                     return true;
                 }
@@ -72,41 +72,40 @@ public class BresenhamLineRasterizer
         {
             SwapLine_X_And_Y_Coordinates();
         }
-        UpdateLinelineWidthAndHeight();
+
+        // Update data
+        lineWidth = endPoint.X - startPoint.X;
+        lineHeight = endPoint.Y - startPoint.Y;
     }
 
     private void InvertLineSlopeToPositive()
     {
-        point2 = new Point2D(point2.X, point2.Y + 2 * Math.Abs(lineHeight));
+        endPoint = new Point2D(endPoint.X, endPoint.Y + 2 * Math.Abs(lineHeight));
     }
 
     private void SwapLine_X_And_Y_Coordinates()
     {
-        point1 = new Point2D(point1.Y, point1.X);
-        point2 = new Point2D(point2.Y, point2.X);
-    }
-
-    private void UpdateLinelineWidthAndHeight()
-    {
-        lineWidth = point2.X - point1.X;
-        lineHeight = point2.Y - point1.Y;
+        startPoint = new Point2D(startPoint.Y, startPoint.X);
+        endPoint = new Point2D(endPoint.Y, endPoint.X);
     }
 
     private void Rasterize()
     {
-        int x = point1.X;
-        int y = point1.Y;
-        while (x <= point2.X)
+        int x = startPoint.X;
+        int y = startPoint.Y;
+
+        while (x <= endPoint.X)
         {
-            DrawPixel(x, y);
+            AddPixel(x, y);
+
             x = PrepareNextPixel_X(x);
             y = PrepareNextPixel_Y(y);
         }
     }
 
-    private void DrawPixel(int x, int y)
+    private void AddPixel(int x, int y)
     {
-        drawnPixels.Add(new Point2D(x, y));
+        linePixels.Add(new Point2D(x, y));
     }
 
     private int PrepareNextPixel_X(int x)
@@ -116,7 +115,7 @@ public class BresenhamLineRasterizer
 
     private int PrepareNextPixel_Y(int y)
     {
-        if (Pixel_Y_ShouldBeShiftedUp())
+        if (ShouldPixelSiftUp())
         {
             y++;
             nextPixel_Y_Decider += 2 * (lineHeight - lineWidth);
@@ -128,7 +127,7 @@ public class BresenhamLineRasterizer
         return y;
     }
 
-    private bool Pixel_Y_ShouldBeShiftedUp()
+    private bool ShouldPixelSiftUp()
     {
         return 2 * lineHeight - lineWidth + nextPixel_Y_Decider > 0;
     }
@@ -137,7 +136,7 @@ public class BresenhamLineRasterizer
     {
         if (Math.Abs(lineSlope) > 1)
         {
-            SwapDrawnPixels_X_And_Y_Coordinates();
+            SwapLinePixels_X_And_Y_Coordinates();
         }
         if (lineSlope < 0)
         {
@@ -145,27 +144,27 @@ public class BresenhamLineRasterizer
         }
     }
 
-    private void SwapDrawnPixels_X_And_Y_Coordinates()
+    private void SwapLinePixels_X_And_Y_Coordinates()
     {
-        for (int i = 0; i < drawnPixels.Count(); i++)
+        for (int i = 0; i < linePixels.Count(); i++)
         {
-            Point2D pixel = drawnPixels[i];
-            drawnPixels[i] = new Point2D(pixel.Y, pixel.X);
+            Point2D pixel = linePixels[i];
+            linePixels[i] = new Point2D(pixel.Y, pixel.X);
         }
     }
 
     private void InvertSlopeOfRasterizedLineToNegative()
     {
-        for (int i = 0; i < drawnPixels.Count(); i++)
+        for (int i = 0; i < linePixels.Count(); i++)
         {
-            Point2D pixel = drawnPixels[i];
+            Point2D pixel = linePixels[i];
             if (Math.Abs(lineSlope) > 1)
             {
-                drawnPixels[i] = new Point2D(pixel.X, pixel.Y - 2 * (pixel.Y - point1.X));
+                linePixels[i] = new Point2D(pixel.X, pixel.Y - 2 * (pixel.Y - startPoint.X));
             }
             else
             {
-                drawnPixels[i] = new Point2D(pixel.X, pixel.Y - 2 * (pixel.Y - point1.Y));
+                linePixels[i] = new Point2D(pixel.X, pixel.Y - 2 * (pixel.Y - startPoint.Y));
             }
         }
     }
